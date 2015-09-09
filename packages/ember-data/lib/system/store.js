@@ -1404,7 +1404,7 @@ Store = Service.extend({
 
     this.typeMapFor(internalModel.type).idToRecord[id] = internalModel;
 
-    internalModel.setId(id);
+    internalModel.setId(id, true);
   },
 
   /**

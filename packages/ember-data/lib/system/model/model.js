@@ -292,6 +292,13 @@ var Model = Ember.Object.extend(Ember.Evented, {
     @property id
     @type {String}
   */
+  id: null,
+
+  setId: Ember.observer('id', function () {
+    if (this.get('id') && this.get('id') !== this._internalModel.id) {
+      this._internalModel.setId(this.get('id'));
+    }
+  }),
 
   /**
     @property currentState
@@ -838,19 +845,6 @@ Model.reopenClass({
    @readonly
   */
   modelName: null
-});
-
-Object.defineProperty(Model.prototype, 'id', {
-  configurable: true,
-  enumerable: false,
-  set(id) {
-    if (this._internalModel) {
-      this._internalModel.setId(id);
-    }
-  },
-  get() {
-    return this._internalModel.id;
-  }
 });
 
 export default Model;

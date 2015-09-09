@@ -115,6 +115,7 @@ InternalModel.prototype = {
       store: this.store,
       container: this.container,
       _internalModel: this,
+      id: this.id,
       currentState: get(this, 'currentState'),
       isError: this.isError,
       adapterError: this.error
@@ -540,9 +541,14 @@ InternalModel.prototype = {
     this.store.dataWasUpdated(this.type, this);
   },
 
-  setId: function(id) {
+  setId: function(id, persist) {
     Ember.assert('A record\'s id cannot be changed once it is in the loaded state', this.id === null || this.id === id || this.isNew());
     this.id = id;
+
+    // if persist is true, persist the id changes to the model
+    if (persist && this.record) {
+      this.record.set('id', id);
+    }
   },
 
   didError: function(error) {
